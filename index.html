@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F1013">
+<meta name="description" content="TANAS — одежда с якутским колоритом. Каталог, размеры, доставка и контакты бренда.">
+<title>TANAS — одежда с якутским колоритом</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Unbounded:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div id="toast-container" role="status" aria-live="polite"></div>
+
+<div id="site">
+  <header>
+    <div class="container nav">
+      <a href="#" class="logo" onclick="switchPage('home')">
+        <img src="images/logo.png" alt="TANAS" width="30" height="30" loading="eager" decoding="async">
+        <span data-c="logo">TANAS</span>
+      </a>
+      <div class="search-box">
+        <input type="text" id="global-search" aria-label="Поиск по сайту" enterkeyhint="search" placeholder="Поиск по сайту..." autocomplete="off" oninput="queueSearch(this.value)" onfocus="handleSearch(this.value)" onkeydown="handleSearchKey(event)">
+        <div id="search-suggestions" class="search-suggestions"></div>
+      </div>
+      <ul class="nav-links" aria-label="Основная навигация">
+        <li><a href="#" onclick="switchPage('home');return false;" class="nav-link-home active">Главная</a></li>
+        <li><a href="#catalog" onclick="switchPage('catalog');return false;" class="nav-link-catalog">Каталог</a></li>
+        <li><a href="#about-main" onclick="switchPage('home'); return true;">О бренде</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn-icon" onclick="openFavorites()" title="Избранное" aria-label="Избранное"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span id="fav-badge" class="badge">0</span></button>
+        <button class="btn-icon" onclick="openCart()" title="Корзина" aria-label="Корзина"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span id="cart-badge" class="badge">0</span></button>
+        <button class="btn-icon" onclick="openLK()" title="Профиль" aria-label="Профиль"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="marquee" id="marquee-block"><div class="marquee-content" id="marquee-text">БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 5000 ₽ • НОВАЯ КОЛЛЕКЦИЯ • ЯКУТСКИЙ КОЛОРИТ • </div></div>
+
+  <div id="page-home" class="page active">
+    <section class="hero">
+      <div class="container hero-grid fade-in">
+        <div>
+          <span class="kicker" data-c="hero_kicker">Одежда с якутским кодом</span>
+          <h1 class="display"><span data-c="hero_t1">Север</span><br><span data-c="hero_t2">в каждой</span><br><em data-c="hero_t3">детали</em></h1>
+          <p data-c="hero_sub">TANAS — бренд повседневной и спортивной одежды с национальным якутским колоритом.</p>
+          <div class="hero-actions">
+            <a href="#catalog-preview" class="btn btn-primary" data-c="hero_btn1">Смотреть коллекцию</a>
+            <a href="#about-main" class="btn btn-outline" data-c="hero_btn2">О бренде</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><strong data-c="stat1">2014</strong><span data-c="stat1_l">год основания</span></div>
+            <div class="stat"><strong data-c="stat2">100%</strong><span data-c="stat2_l">свой дизайн</span></div>
+            <div class="stat"><strong data-c="stat3">РФ</strong><span data-c="stat3_l">доставка</span></div>
+          </div>
+        </div>
+        <div class="hero-img">
+          <img id="hero-img" width="451" height="679" fetchpriority="high" src="images/hero.jpg" alt="TANAS — северный стиль" loading="eager" decoding="async">
+          <div class="hero-badge" data-c="hero_badge">Наша гордость — бейсболки Earflap</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="catalog-preview">
+      <div class="container">
+        <div class="section-head fade-in"><div><span class="kicker" data-c="cat_kicker">Коллекция</span><h2 class="display" data-c="cat_title">Хиты продаж</h2></div></div>
+        <div class="grid fade-in" id="home-products-grid"></div>
+        <div class="show-more-wrap fade-in" style="text-align:center; margin-top:32px;"><button class="btn btn-outline" id="toggle-products-btn" onclick="toggleHomeProducts()">Показать все товары</button></div>
+      </div>
+    </section>
+
+    <section class="section about" id="about-main">
+      <div class="container about-grid fade-in">
+        <div class="about-text">
+          <span class="kicker">О бренде</span>
+          <h2 class="display">Больше, чем одежда</h2>
+          <p>TANAS — это первый бренд повседневной и спортивной одежды с национальным якутским колоритом.</p>
+          <p>Каждая вещь создается с любовью к Северу и его традициям, но с учетом современных трендов и требований к комфорту.</p>
+        </div>
+        <div class="about-img"><img src="images/about.jpg" width="451" height="679" alt="О бренде TANAS" loading="lazy" decoding="async"></div>
+      </div>
+    </section>
+
+    <section class="section" id="delivery-main">
+      <div class="container">
+        <div class="section-head fade-in" style="justify-content:center; text-align:center;"><div><span class="kicker">Сервис</span><h2 class="display">Доставка и оплата</h2></div></div>
+        <div class="delivery-grid fade-in">
+          <div class="delivery-card"><div class="delivery-icon">01</div><h4>Почта России</h4><p>Доставка в любой регион РФ. Сроки от 3 до 10 дней.</p></div>
+          <div class="delivery-card"><div class="delivery-icon">02</div><h4>СДЭК / Boxberry</h4><p>Экспресс-доставка до пункта выдачи. Сроки от 2 дней.</p></div>
+          <div class="delivery-card"><div class="delivery-icon">03</div><h4>Безопасная оплата</h4><p>Оплата картой при получении или онлайн-переводом.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact-main">
+      <div class="container">
+        <div class="contact-box fade-in">
+          <h2 class="display">Остались вопросы?</h2>
+          <p>Свяжитесь с нами удобным способом — мы поможем с выбором размера и оформлением заказа.</p>
+          <div class="contact-actions">
+            <a href="tel:+79142703863" class="contact-btn">Позвонить</a>
+            <a href="https://wa.me/79267101609" target="_blank" rel="noopener noreferrer" class="contact-btn">WhatsApp</a>
+            <a href="https://t.me/tanas" target="_blank" rel="noopener noreferrer" class="contact-btn">Telegram</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="page-catalog" class="page">
+    <section class="section" style="padding-top: 36px;">
+      <div class="container">
+        <div class="section-head"><div><h2 class="display">Все товары</h2></div></div>
+        <div class="catalog-layout">
+          <details class="sidebar-filters" open><summary class="filter-toggle">Фильтры и поиск</summary><div class="filter-content">
+            <div class="filter-group"><h4>Поиск</h4><input type="text" id="catalog-search" aria-label="Поиск товаров" enterkeyhint="search" class="form-control" placeholder="Название или тег..." oninput="queueCatalogFilters()"></div>
+            <div class="filter-group"><h4>Категории</h4><div id="filter-categories"></div></div>
+            <div class="filter-group"><h4>Пол</h4>
+              <label class="filter-label"><input type="checkbox" value="male" onchange="applyCatalogFilters()"> Мужское</label>
+              <label class="filter-label"><input type="checkbox" value="female" onchange="applyCatalogFilters()"> Женское</label>
+              <label class="filter-label"><input type="checkbox" value="unisex" onchange="applyCatalogFilters()"> Унисекс</label>
+            </div>
+            <div class="filter-group"><h4>Теги</h4>
+              <label class="filter-label"><input type="checkbox" value="sale" onchange="applyCatalogFilters()"> Со скидкой</label>
+              <label class="filter-label"><input type="checkbox" value="new" onchange="applyCatalogFilters()"> Новинки</label>
+              <label class="filter-label"><input type="checkbox" value="hit" onchange="applyCatalogFilters()"> Хиты</label>
+            </div>
+            <button class="btn-submit" style="background:transparent; border:1px solid var(--border); color:var(--ink); text-transform:none; letter-spacing:0; font-size:.82rem;" onclick="resetCatalogFilters()">Сбросить</button>
+          </div></details>
+          <div>
+            <div class="catalog-top">
+              <span id="catalog-count" style="font-size:0.82rem; color:var(--muted)">Найдено: 0</span>
+              <div class="catalog-tools">
+                <button class="btn-icon" id="compare-btn" onclick="openCompare()" style="display:none;border:1px solid var(--border); font-size:.75rem;">Сравнить (<span id="compare-count">0</span>)</button>
+                <select id="catalog-sort" aria-label="Сортировка товаров" onchange="applyCatalogFilters()">
+                  <option value="default">По умолчанию</option>
+                  <option value="price-asc">Сначала дешевле</option>
+                  <option value="price-desc">Сначала дороже</option>
+                  <option value="new">Сначала новинки</option>
+                  <option value="rating">По рейтингу</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid" id="catalog-products-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom:14px"><img src="images/logo.png" alt="TANAS" width="22" height="22" loading="lazy" decoding="async"> TANAS</div>
+          <p data-c="f_desc">Одежда с якутским колоритом.</p>
+          <p style="margin-top:10px" data-c="f_addr">г. Якутск, ул. Ленина, 1</p>
+          <p data-c="f_phone">+7 (914) 270-38-63</p>
+        </div>
+        <div class="footer-col"><h4>Покупателям</h4><a onclick="openLegal('offer')">Публичная оферта</a><a onclick="openLegal('privacy')">Политика конфиденциальности</a></div>
+        <div class="footer-col"><h4>Каталог</h4><div id="footer-cats"></div></div>
+        <div class="footer-col"><h4>Контакты</h4><a href="tel:+79142703863">Позвонить</a><a href="https://wa.me/79267101609">WhatsApp</a></div>
+      </div>
+      <div class="footer-bottom">
+        <span data-c="f_copy">© 2025 TANAS. Все права защищены.</span>
+        <button class="btn-icon" onclick="document.getElementById('admin-login').classList.add('active')" style="font-size:.75rem;">Вход для персонала</button>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<div class="modal" id="cart-modal"><div class="modal-box wide">
+  <button class="modal-close" onclick="document.getElementById('cart-modal').classList.remove('active')">&times;</button>
+  <h3>Корзина</h3>
+  <div class="cart-layout">
+    <div>
+      <div id="cart-list"></div>
+      <div id="promo-area" style="margin-top:14px; display:none;">
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="promo-input" class="form-control" placeholder="Промокод">
+          <button class="btn btn-primary" style="padding:10px 20px; text-transform:none; letter-spacing:0; font-size:.82rem;" onclick="applyPromo()">Применить</button>
+        </div>
+        <div id="promo-status" style="margin-top:8px; font-size:0.78rem;"></div>
+      </div>
+    </div>
+    <div class="checkout-box">
+      <h4 style="margin-bottom:14px; font-size:.95rem">Оформление заказа</h4>
+      <div id="auth-warning" style="display:none; text-align:center; padding:20px 0;">
+        <p style="font-size:0.86rem; margin-bottom:14px; color:var(--muted)">Войдите в профиль для оформления.</p>
+        <button class="btn btn-primary" onclick="document.getElementById('cart-modal').classList.remove('active');openLK()">Войти / Регистрация</button>
+      </div>
+      <div id="checkout-form" style="display:none">
+        <div class="form-group"><label for="co-name">Имя</label><input type="text" id="co-name" class="form-control"></div>
+        <div class="form-group"><label for="co-phone">Телефон</label><input type="tel" id="co-phone" class="form-control"></div>
+        <div class="form-group"><label for="co-city">Город</label><input type="text" id="co-city" class="form-control"></div>
+        <div class="form-group"><label for="co-street">Улица, дом, кв.</label><input type="text" id="co-street" class="form-control"></div>
+        <div class="form-group"><label for="co-zip">Индекс</label><input type="text" id="co-zip" class="form-control"></div>
+        <div style="display:flex; gap:8px; margin:14px 0; align-items:flex-start">
+          <input type="checkbox" id="co-agree" style="margin-top:4px; accent-color:var(--accent)">
+          <label for="co-agree" style="font-size:0.74rem; color:var(--muted); cursor:pointer">Согласен с <a onclick="openLegal('offer')" style="color:var(--gold)">офертой</a></label>
+        </div>
+        <button class="btn-submit" onclick="checkout()">Оформить заказ</button>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal" id="lk-modal"><div class="modal-box wide">
+  <button class="modal-close" onclick="document.getElementById('lk-modal').classList.remove('active')">&times;</button>
+  <h3>Личный кабинет</h3>
+  <div id="auth-view">
+    <div class="tabs"><div class="tab active" onclick="switchAuth('phone', this)">По телефону</div><div class="tab" onclick="switchAuth('email', this)">По Email</div></div>
+    <div class="form-group"><label for="auth-name">Имя</label><input type="text" id="auth-name" class="form-control"></div>
+    <div class="form-group" id="group-phone"><label for="auth-phone">Телефон</label><input type="tel" id="auth-phone" class="form-control"></div>
+    <div class="form-group" id="group-email" style="display:none"><label for="auth-email">Email</label><input type="email" id="auth-email" class="form-control"></div>
+    <div class="form-group"><label for="auth-pass">Пароль</label><input type="password" id="auth-pass" class="form-control"></div>
+    <button class="btn-submit" onclick="doLogin()">Войти / Зарегистрироваться</button>
+  </div>
+  <div id="profile-view" style="display:none">
+    <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+      <span style="font-size:0.9rem">Вы вошли как: <b id="user-display"></b></span>
+      <button class="btn-icon" onclick="logout()" style="font-size:.78rem;">Выйти</button>
+    </div>
+    <div class="tabs"><div class="tab active" onclick="switchTab('p-info', this)">Профиль</div><div class="tab" onclick="switchTab('p-history', this)">Заказы</div><div class="tab" onclick="switchTab('p-favorites', this)">Избранное</div></div>
+    <div id="p-info" class="tab-content">
+      <div class="form-group"><label for="prof-name">Имя</label><input type="text" id="prof-name" class="form-control"></div>
+      <div class="form-group"><label for="prof-contact">Контакт (логин)</label><input type="text" id="prof-contact" class="form-control" readonly style="opacity:0.5"></div>
+      <h4 style="margin:20px 0 14px; font-size:0.9rem">Мои размеры</h4>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;">
+        <div class="form-group"><label for="prof-chest">Грудь</label><input type="number" id="prof-chest" class="form-control"></div>
+        <div class="form-group"><label for="prof-waist">Талия</label><input type="number" id="prof-waist" class="form-control"></div>
+        <div class="form-group"><label for="prof-hips">Бедра</label><input type="number" id="prof-hips" class="form-control"></div>
+      </div>
+      <button class="btn-submit" onclick="saveProfile()">Сохранить</button>
+    </div>
+    <div id="p-history" class="tab-content" style="display:none"></div>
+    <div id="p-favorites" class="tab-content" style="display:none"></div>
+  </div>
+</div></div>
+
+<div class="modal" id="product-modal"><div class="modal-box wide">
+  <button class="modal-close" onclick="document.getElementById('product-modal').classList.remove('active')">&times;</button>
+  <div class="p-grid">
+    <div>
+      <div class="gallery-main"><img id="p-img" alt="Фото товара" width="240" height="300"></div>
+      <div class="gallery-thumbs" id="p-thumbs"></div>
+    </div>
+    <div class="p-info">
+      <span class="card-tag mb-2" id="p-tag"></span>
+      <h2 style="font-size:1.35rem; margin-bottom:6px;" id="p-title"></h2>
+      <div style="font-size:1.4rem; font-weight:600; color:var(--gold); margin-bottom:6px;" id="p-price"></div>
+      <div id="p-rating" style="color:var(--gold); margin-bottom:14px; font-size:.85rem;"></div>
+      <p class="p-desc" id="p-desc"></p>
+      <div class="sizes" id="p-sizes">
+        <button class="size-btn" onclick="selectSize(this)">S</button>
+        <button class="size-btn active" onclick="selectSize(this)">M</button>
+        <button class="size-btn" onclick="selectSize(this)">L</button>
+        <button class="size-btn" onclick="selectSize(this)">XL</button>
+      </div>
+      <table class="p-specs" id="p-specs"></table>
+      <div style="display:flex; gap:8px; margin-top:auto;">
+        <button class="btn-submit" style="margin:0; flex:1;" onclick="addToCart()">В корзину</button>
+        <button class="btn-icon" id="p-fav-btn" onclick="toggleFavorite(currentProd.id)" style="border:1px solid var(--border); padding:8px 14px; color:var(--ink);" title="В избранное"></button>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:28px; border-top:1px solid var(--border); padding-top:20px;">
+    <h3 style="margin-bottom:14px;">Отзывы (<span id="reviews-count">0</span>)</h3>
+    <div id="reviews-list"></div>
+    <div style="background:var(--bg); padding:16px; border-radius:6px; margin-top:14px;">
+      <h4 style="margin-bottom:12px; font-size:0.86rem;">Оставить отзыв</h4>
+      <div class="form-group"><label for="review-rating">Оценка</label><select id="review-rating" class="form-control"><option value="5">5 — Отлично</option><option value="4">4 — Хорошо</option><option value="3">3 — Нормально</option><option value="2">2 — Плохо</option><option value="1">1 — Ужасно</option></select></div>
+      <div class="form-group"><label for="review-text">Комментарий</label><textarea id="review-text" class="form-control" rows="2" placeholder="Поделитесь впечатлениями..."></textarea></div>
+      <button class="btn-submit" onclick="submitReview()">Отправить отзыв</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal" id="compare-modal"><div class="modal-box wide"><button class="modal-close" onclick="document.getElementById('compare-modal').classList.remove('active')">&times;</button><h3>Сравнение товаров</h3><div id="compare-content"></div></div></div>
+<div class="modal" id="favorites-modal"><div class="modal-box wide"><button class="modal-close" onclick="document.getElementById('favorites-modal').classList.remove('active')">&times;</button><h3>Избранное</h3><div id="favorites-content"></div></div></div>
+<div class="modal" id="order-detail-modal"><div class="modal-box"><button class="modal-close" onclick="document.getElementById('order-detail-modal').classList.remove('active')">&times;</button><h3>Детали заказа</h3><div id="order-detail-content"></div></div></div>
+<div class="modal" id="legal-modal"><div class="modal-box"><button class="modal-close" onclick="document.getElementById('legal-modal').classList.remove('active')">&times;</button><h3 id="legal-title">Документ</h3><div id="legal-text" style="font-size:0.86rem; color:var(--muted); line-height:1.7;"></div></div></div>
+<div class="modal" id="admin-login"><div class="modal-box"><button class="modal-close" onclick="document.getElementById('admin-login').classList.remove('active')">&times;</button><h3>Вход для админа</h3><div class="form-group"><input type="password" id="admin-pass" class="form-control" placeholder="Пароль"></div><button class="btn-submit" onclick="loginAdmin()">Войти</button></div></div>
+
+<div id="admin"><div class="admin-layout">
+  <div class="sidebar">
+    <div class="sidebar-logo">TANAS Admin</div>
+    <ul class="sidebar-nav">
+      <li class="active" onclick="showAdminTab('analytics', this)">Аналитика</li>
+      <li onclick="showAdminTab('orders', this)">Заказы</li>
+      <li onclick="showAdminTab('products', this)">Товары</li>
+      <li onclick="showAdminTab('promo', this)">Промокоды</li>
+      <li onclick="showAdminTab('reviews', this)">Отзывы</li>
+      <li onclick="showAdminTab('content', this)">Контент</li>
+      <li onclick="showAdminTab('settings', this)">Настройки</li>
+    </ul>
+    <div style="padding:18px; border-top:1px solid var(--border);"><button class="btn-icon" onclick="logoutAdmin()" style="font-size:.8rem;">← Выйти на сайт</button></div>
+  </div>
+  <div class="admin-main">
+    <div id="tab-analytics" class="admin-page active">
+      <h2 style="margin-bottom:20px">Аналитика</h2>
+      <div class="kpi-grid" id="kpi-grid"></div>
+      <h3 style="margin:20px 0 14px; color:var(--gold); font-size:.95rem">Просмотры по дням</h3>
+      <div class="chart" id="views-chart"></div>
+      <h3 style="margin:20px 0 14px; color:var(--gold); font-size:.95rem">Топ-5 просмотренных товаров</h3>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Таблица с горизонтальной прокруткой"><table id="top-views-table"><thead><tr><th>Товар</th><th>Просмотры</th></tr></thead><tbody></tbody></table></div>
+      <h3 style="margin:20px 0 14px; color:var(--gold); font-size:.95rem">Последние действия</h3>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Таблица с горизонтальной прокруткой"><table id="actions-table"><thead><tr><th>Время</th><th>Действие</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div id="tab-orders" class="admin-page">
+      <h2 style="margin-bottom:20px">Заказы</h2>
+      <div class="order-status-tabs"><button class="order-tab active" onclick="filterOrders('all', this)">Все</button><button class="order-tab" onclick="filterOrders('new', this)">Новые</button><button class="order-tab" onclick="filterOrders('process', this)">В работе</button><button class="order-tab" onclick="filterOrders('done', this)">Выполненные</button><button class="order-tab" onclick="filterOrders('cancelled', this)">Отмененные</button></div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Таблица с горизонтальной прокруткой"><table id="admin-orders-table"><thead><tr><th>ID/Дата</th><th>Клиент</th><th>Сумма</th><th>Статус</th><th>Действия</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div id="tab-products" class="admin-page">
+      <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;"><h2>Товары</h2><button class="btn btn-primary" onclick="editProduct(null)">+ Добавить</button></div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Таблица с горизонтальной прокруткой"><table id="admin-products-table"><thead><tr><th>Фото</th><th>Название</th><th>Цена</th><th>Действие</th></tr></thead><tbody></tbody></table></div>
+      <div id="product-form" style="display:none; margin-top:28px; background:var(--surface); padding:22px; border-radius:8px; border:1px solid var(--border);">
+        <h3 id="pf-title" style="margin-bottom:18px">Добавление</h3>
+        <input type="hidden" id="pf-id">
+        <div class="form-group"><label for="pf-name">Название</label><input type="text" id="pf-name" class="form-control"></div>
+        <div class="form-group"><label for="pf-price">Цена</label><input type="number" id="pf-price" class="form-control"></div>
+        <div class="form-group"><label for="pf-cat">Категория</label><select id="pf-cat" class="form-control"></select></div>
+        <div class="form-group"><label for="pf-gender">Пол</label><select id="pf-gender" class="form-control"><option value="unisex">Унисекс</option><option value="male">Мужское</option><option value="female">Женское</option></select></div>
+        <div class="form-group"><label for="pf-tag">Тег (хит, новинка, скидка)</label><input type="text" id="pf-tag" class="form-control"></div>
+        <div class="form-group"><label for="pf-img">Фото (ссылки через запятую)</label><textarea id="pf-img" class="form-control" rows="2"></textarea></div>
+        <div class="form-group"><label for="pf-desc">Описание</label><textarea id="pf-desc" class="form-control" rows="2"></textarea></div>
+        <div class="form-group"><label for="pf-specs">Характеристики (ключ: значение)</label><textarea id="pf-specs" class="form-control" rows="4"></textarea></div>
+        <button class="btn-submit" onclick="saveProduct()">Сохранить</button>
+        <button class="btn-icon" onclick="document.getElementById('product-form').style.display='none'" style="margin-top:8px; font-size:.8rem;">Отмена</button>
+      </div>
+    </div>
+    <div id="tab-promo" class="admin-page">
+      <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;"><h2>Промокоды</h2><button class="btn btn-primary" onclick="createPromo()">+ Создать</button></div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Таблица с горизонтальной прокруткой"><table id="admin-promo-table"><thead><tr><th>Код</th><th>Тип</th><th>Размер</th><th>Использован</th><th>Действие</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div id="tab-reviews" class="admin-page">
+      <h2 style="margin-bottom:20px">Отзывы</h2>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Таблица с горизонтальной прокруткой"><table id="admin-reviews-table"><thead><tr><th>Товар</th><th>Оценка</th><th>Текст</th><th>Дата</th><th>Действие</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div id="tab-content" class="admin-page">
+      <h2 style="margin-bottom:20px">Тексты на сайте</h2>
+      <div id="content-form" style="max-width:760px;"></div>
+      <button class="btn-submit" style="max-width:280px; margin-top:20px;" onclick="saveContent()">Сохранить тексты</button>
+    </div>
+    <div id="tab-settings" class="admin-page">
+      <h2 style="margin-bottom:20px">Настройки</h2>
+      <div style="background:var(--surface); padding:22px; border-radius:8px; border:1px solid var(--border); max-width:560px; margin-bottom:20px;">
+        <h3 style="margin-bottom:14px; font-size:.95rem; color:var(--gold)">Бегущая строка</h3>
+        <div class="form-group" style="display:flex; align-items:center; gap:12px;"><input type="checkbox" id="marquee-enabled" style="width:18px; height:18px; cursor:pointer; accent-color:var(--accent);" onchange="toggleMarqueeSettings()"><label for="marquee-enabled" style="margin:0; font-size:0.86rem; cursor:pointer;">Показывать ленту</label></div>
+        <div id="marquee-settings-inputs">
+          <div class="form-group" style="margin-top:14px;"><label for="marquee-input-text">Текст ленты</label><textarea id="marquee-input-text" class="form-control" rows="3"></textarea></div>
+          <div class="form-group"><label for="marquee-input-speed">Скорость (секунд)</label><input type="number" id="marquee-input-speed" class="form-control" min="5" max="60"></div>
+        </div>
+        <button class="btn-submit" onclick="saveMarqueeSettings()">Сохранить ленту</button>
+      </div>
+      <div style="background:var(--surface); padding:22px; border-radius:8px; border:1px solid var(--border); max-width:560px;">
+        <h3 style="margin-bottom:14px; font-size:.95rem; color:var(--gold)">Смена пароля</h3>
+        <div class="form-group"><label for="set-old-pass">Текущий пароль</label><input type="password" id="set-old-pass" class="form-control"></div>
+        <div class="form-group"><label for="set-new-pass">Новый пароль</label><input type="password" id="set-new-pass" class="form-control"></div>
+        <button class="btn-submit" onclick="changePassword()">Изменить пароль</button>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<script src="assets/app.js" defer></script>
+</body>
+</html>
